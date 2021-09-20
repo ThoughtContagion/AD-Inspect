@@ -13,7 +13,7 @@
 
 Function Get-DomainGPOs{
     #Get Domain
-    $domain = Get-ADDomain -Properties *
+    $domain = Get-ADDomain
 
     #Get the GPO information and generate reports
     Get-GPOReport -All -Domain $domain.DNSRoot -Server $domain.PDCEmulator -ReportType HTML -Path ".\$($domain.DNSRoot)_GPOReportsAll.html"
