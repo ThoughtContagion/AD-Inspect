@@ -43,6 +43,8 @@ Connect-Services
 #Define Organization Attributes
 $out_path = $OutPath
 $org_name = Get-ADDomain | Select-Object DNSRoot
+$org_name = $org_name.DNSRoot
+
 
 # Get a list of every available detection module by parsing the PowerShell
 # scripts present in the .\inspectors folder. 
