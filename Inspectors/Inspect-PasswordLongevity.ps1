@@ -12,7 +12,8 @@
 #>
 
 Function Inspect-PasswordLongevity{
-    $pwdNotchanged = Get-ADUser -filter {(PasswordLastSet -lt (Get-Date).adddays(-120)) -and (PasswordNeverExpires -eq $false)} -Properties PasswordLastSet
+    $Date = (Get-Date).adddays(-120) | Get-Date -Format MM/dd/yyyy
+    $pwdNotchanged = Get-ADUser -filter {(PasswordLastSet -lt $Date) -and (PasswordNeverExpires -eq $false)} -Properties PasswordLastSet
     
     if ($pwdNotchanged.count -gt 0 -and $pwdNotchanged.enabled -eq $true){
         Return $pwdNotchanged
