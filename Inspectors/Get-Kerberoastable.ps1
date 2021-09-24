@@ -14,7 +14,7 @@
 Function Get-Kerberoastable{
     $SPN = get-aduser -filter * -pr ServicePrincipalNames | Where-Object {$_.ServicePrincipalNames -like "*"} | Select-Object name, samaccountname, ServicePrincipalNames
     
-    if ($SPN.count -ne '0'){
+    if ($SPN.count -ne 0){
         Return $SPN
     }
 }

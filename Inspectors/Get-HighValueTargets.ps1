@@ -17,7 +17,7 @@ Function Get-HighValueTargets{
     $HVT = @()
 
     foreach ($group in $adminGroups.Name){
-        if ((Get-ADGroupMember $group).count -ne '0'){
+        if ((Get-ADGroupMember $group).count -ne 0){
             $members = Get-ADGroupMember $group -Recursive
             foreach ($member in $members){
                 $HVT += $member

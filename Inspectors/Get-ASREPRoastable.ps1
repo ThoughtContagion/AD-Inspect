@@ -14,7 +14,7 @@
 Function Get-ASREPRoastable{
     $ASREP = get-aduser -filter * -pr DoesNotRequirePreAuth | Where-Object {($_.DoesNotRequirePreAuth -eq $true) -and ($_.Enabled -eq $true)} | Select-Object Name, samaccountname
     
-    if ($ASREP.count -ne '0'){
+    if ($ASREP.count -ne 0){
         Return $ASREP
     }
 }

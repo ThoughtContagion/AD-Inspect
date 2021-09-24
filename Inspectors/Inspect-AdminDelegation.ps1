@@ -12,9 +12,9 @@
 #>
 
 Function Inspect-AdminDelegation{
-    $admins = Get-ADUser -filter {admincount -like "1"} -pr AccountNotDelegated | Where-Object {$_.AccountNotDelegated -eq $false} 
+    $admins = Get-ADUser -filter {admincount -gt 0} -pr AccountNotDelegated | Where-Object {$_.AccountNotDelegated -eq $false} 
     
-    if ($admins.count -ne '0'){
+    if ($admins.count -ne 0){
         Return $admins
     }
 }

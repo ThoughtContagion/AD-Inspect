@@ -13,8 +13,16 @@
 
 
 Function Inspect-Delegation{
-    $DelegationRights = (Get-ACL (Get-ADOrganizationalUnit -Filter ‘name -like “*”‘).distinguishedname).access
-    Return $DelegationRights
+    $OUs = Get-ADOrganizationalUnit -Filter {Name -like '*'} 
+
+    If ((Test-Path -Path .\ActiveDirectoryDelegation) -eq $false){
+        New-Item -Path . -Name "ActiveDirectoryDelegation" -ItemType "directory"
+        }
+    
+    Foreach ($OU in $OUs){
+        dsacls $OU.DistinguishedName | Out-File -FilePath ".\ActiveDirectoryDelegation\$($OU.Name)_DelegatedRights.txt"
+    }
+
 }
 
 Return Inspect-Delegation

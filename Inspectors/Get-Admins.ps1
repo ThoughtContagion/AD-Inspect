@@ -12,16 +12,12 @@
 #>
 
 Function Get-Admins{
-    $admins = Get-ADObject -ldapfilter "(admincount=1)" -Properties adminCount
+    $admins = Get-ADUser -Filter {adminCount -gt 0} -Properties adminCount
 
-    $user_admins = @()
+    If ($admins.count -gt 0){
+        Return $admins
+    } 
 
-    Foreach ($admin in $admins) {
-        If ($admin.objectClass -eq "User"){
-            $useradmins += Get-ADUser $admin.SamAccountName | Select-Object SamAccountName
-        }
-    }
-    Return $user_admins
 }
 
 Return Get-Admins

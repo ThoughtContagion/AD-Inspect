@@ -14,7 +14,7 @@
 Function Inspect-PasswordNotRequired{
     $pwdNotrequired = Get-ADUser -Filter {UserAccountControl -band 0x0020}
     
-    if ($pwdNotrequired.count -ne '0'){
+    if ($pwdNotrequired.count -gt 0){
         Return $pwdNotrequired
     }
 }

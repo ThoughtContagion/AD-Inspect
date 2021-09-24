@@ -13,12 +13,10 @@
 
 Function Get-DCSoftware{
     $DCs = Get-ADDomainController
-    
-    if ($DCs.count -ne '0'){
-        Foreach ($DC in $DCs) {
-            $software = Invoke-Command -ComputerName $DC.name {Get-WmiObject -Class Win32_Product}
-            Return $software
-        }
+
+    Foreach ($DC in $DCs) {
+        $software = Get-WmiObject -Class Win32_Product -ComputerName $DC.Hostname
+        Return $software
     }
 }
 

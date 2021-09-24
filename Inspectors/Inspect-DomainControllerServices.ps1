@@ -14,11 +14,9 @@
 Function Get-Services{
     $DCs = Get-ADDomainController
     
-    if ($DCs.count -ne '0'){
-        Foreach ($DC in $DCs) {
-            $services = Invoke-Command -ComputerName $DC.name {Get-Services}
-            Return $services
-        }
+    Foreach ($DC in $DCs) {
+        $services = Get-Service -ComputerName $DC.Hostname
+        Return $services
     }
 }
 
