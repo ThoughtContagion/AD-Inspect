@@ -11,7 +11,7 @@
     Gather information about Active Directory Active Directory Domain Password Policy
 #>
 
-
+$path = @($out_path)
 Function Inspect-PasswordPolicy { 
 
     $ADRoot = Get-ADRootDSE
@@ -29,7 +29,15 @@ Function Inspect-PasswordPolicy {
         }
     }
 
-    Return $data | Out-File "Domain_Password_Policies.txt"
+    $flag = $false
+
+    If ($null -ne $data){
+        $flag = $true
+    }
+
+    $data | Out-File "$($path)\Domain_Password_Policies.txt"
+
+    Return $flag
 }
 
 Return Inspect-PasswordPolicy

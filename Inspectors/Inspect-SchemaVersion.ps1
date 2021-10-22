@@ -11,11 +11,11 @@
     Gather information about Active Directory Schema
 #>
 
-
+$path = @($out_path)
 Function Inspect-SchemaVersion{
     $Schema = Get-ADObject (Get-ADRootDSE).schemaNamingContext -Property objectVersion
     If ($Schema.objectVersion -le "69") {
-        Return $Schema | Out-File "Domain_Schema.txt"
+        Return $Schema | Out-File "$($path)\Domain_Schema.txt"
     }
 }
 
