@@ -29,7 +29,7 @@ Function Inspect-PasswordPolicy {
         }
     }
 
-    Return $data
+    Return $data | Out-File "Domain_Password_Policies.txt"
 }
 
 Return Inspect-PasswordPolicy
