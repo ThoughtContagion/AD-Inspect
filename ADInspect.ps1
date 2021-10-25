@@ -52,7 +52,23 @@ $inspectors = (Get-ChildItem .\inspectors\ | Where-Object -FilterScript { $_.Nam
 
 $selected_inspectors = $inspectors
 
-New-Item -ItemType Directory -Force -Path $out_path | Out-Null
+Try {
+	If ((Test-Path $out_path) -eq $false){
+		New-Item -ItemType Directory -Force -Path $out_path | Out-Null
+		If ((Test-Path $out_path) -eq $true){
+			$path = Resolve-Path $out_path
+			Write-Output "$($path.Path) created successfully!"
+		}
+	}
+	Else {
+		$path = Resolve-Path $out_path
+		Write-Output "$($path.Path) already exists!"
+	}
+}
+Catch {
+	Write-Error "Directory not created! Please check permissions."
+	Confirm-Close
+}
 
 # Maintain a list of all findings, beginning with an empty list.
 $findings = @()
@@ -184,6 +200,13 @@ $output = $templates.ReportTemplate.Replace($templates.FindingShortTemplate, $sh
 $output = $output.Replace($templates.FindingLongTemplate, $long_findings_html)
 $output = $output.Replace($templates.ExecsumTemplate, $templates.ExecsumTemplate.Replace("{{CMDLINEFLAGS}}", $flags))
 
-$output | Out-File -FilePath $out_path\$($org_name)_Report_$(Get-Date -Format "yyyy-MM-dd_hh-mm-ss").html
+$output | Out-File -FilePath $out_path\Report_$(Get-Date -Format "yyyy-MM-dd_hh-mm-ss").html
+
+$compress = @{
+	Path = $out_path
+	CompressionLevel = "Fastest"
+	DestinationPath = "$out_path\$($org_name)_Report.zip"
+  }
+  Compress-Archive @compress
 
 return
