@@ -12,12 +12,13 @@
 #>
 
 
+$path = @($out_path)
 Function Inspect-LockoutPolicy{
     $domain = Get-ADRootDSE 
     $AccountPolicy = Get-ADObject $domain.defaultNamingContext -Property lockoutDuration, lockoutObservationWindow, lockoutThreshold
     $Info = $AccountPolicy | Select-Object @{n="lockoutDuration";e={"$($_.lockoutDuration / -600000000) minutes"}},@{n="lockoutObservationWindow";e={"$($_.lockoutObservationWindow / -600000000) minutes"}},lockoutThreshold | Format-List
 
-    Return $Info
+    $Info | Out-File "$($path)\LockoutPolicy.txt"
 }
 
 Return Inspect-LockoutPolicy
