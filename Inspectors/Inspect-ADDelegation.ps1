@@ -15,12 +15,14 @@ $path = @($out_path)
 Function Inspect-Delegation{
     $OUs = Get-ADOrganizationalUnit -Filter {Name -like '*'} 
 
-    If ((Test-Path -Path .\ActiveDirectoryDelegation) -eq $false){
-        New-Item -Path . -Name "ActiveDirectoryDelegation" -ItemType "directory"
+    If ((Test-Path -Path $path\ActiveDirectoryDelegation) -eq $false){
+        New-Item -Path $path -Name "ActiveDirectoryDelegation" -ItemType "directory"
         }
+
+    $path = "$($path)\ActiveDirectoryDelegation"
     
     Foreach ($OU in $OUs){
-        dsacls $OU.DistinguishedName | Out-File -FilePath "$path\ActiveDirectoryDelegation\$($OU.Name)_DelegatedRights.txt"
+        dsacls $OU.DistinguishedName | Out-File -FilePath "$path\$($OU.Name)_DelegatedRights.txt"
     }
 
 }
