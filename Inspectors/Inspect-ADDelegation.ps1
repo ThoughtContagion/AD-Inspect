@@ -11,7 +11,7 @@
     Gather information about Active Directory high-value target accounts
 #>
 
-
+$path = @($out_path)
 Function Inspect-Delegation{
     $OUs = Get-ADOrganizationalUnit -Filter {Name -like '*'} 
 
@@ -20,7 +20,7 @@ Function Inspect-Delegation{
         }
     
     Foreach ($OU in $OUs){
-        dsacls $OU.DistinguishedName | Out-File -FilePath "$out_path\ActiveDirectoryDelegation\$($OU.Name)_DelegatedRights.txt"
+        dsacls $OU.DistinguishedName | Out-File -FilePath "$path\ActiveDirectoryDelegation\$($OU.Name)_DelegatedRights.txt"
     }
 
 }
