@@ -16,8 +16,9 @@ Function Inspect-SchemaVersion{
     $Schema = Get-ADObject (Get-ADRootDSE).schemaNamingContext -Property objectVersion
     If ($Schema.objectVersion -le "69") {
         $Schema | Out-File "$($path)\Domain_Schema.txt"
+        Return $Schema.objectVersion
     }
-    Return $Schema.objectVersion
+    Return $null
 }
 
 Return Inspect-SchemaVersion

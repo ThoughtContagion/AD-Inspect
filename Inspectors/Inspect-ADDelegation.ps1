@@ -20,7 +20,7 @@ Function Inspect-Delegation{
         }
     
     Foreach ($OU in $OUs){
-        dsacls $OU.DistinguishedName | Out-File -FilePath ".\ActiveDirectoryDelegation\$($OU.Name)_DelegatedRights.txt"
+        dsacls $OU.DistinguishedName | Out-File -FilePath "$out_path\ActiveDirectoryDelegation\$($OU.Name)_DelegatedRights.txt"
     }
 
 }

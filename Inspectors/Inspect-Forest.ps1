@@ -15,8 +15,9 @@
 Function Inspect-Forest{
     $Forest = Get-ADForest
     If (($Forest.ForestMode -notlike "*2016*") -or ($Forest.ForestMode -notlike "*2019*")) {
-        Return $Forest
+        Return "$Forest is $($Forest.Forestmode)"
     }
+    Return $null
 }
 
 Return Inspect-Forest

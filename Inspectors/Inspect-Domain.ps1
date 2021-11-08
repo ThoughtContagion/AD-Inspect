@@ -15,8 +15,9 @@
 Function Inspect-Domain{
     $Domain = Get-ADDomain
     If (($Domain.DomainMode -notlike "*2016*") -or ($Domain.DomainMode -notlike "*2019*")) {
-        Return $Domain
+        Return "$Domain is $($Domain.DomainMode)"
     }
+    Return $null
 }
 
 Return Inspect-Domain
