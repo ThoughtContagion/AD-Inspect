@@ -11,12 +11,15 @@
     Gather information about Active Directory Group Policy Objects
 #>
 
+
+$path = @($out_path)
+
 Function Get-DomainGPOs{
     #Get Domain
     $domain = Get-ADDomain
 
     #Get the GPO information and generate reports
-    Get-GPOReport -All -Domain $domain.DNSRoot -Server $domain.PDCEmulator -ReportType HTML -Path ".\$($domain.DNSRoot)_GPOReportsAll.html"
+    Get-GPOReport -All -Domain $domain.DNSRoot -Server $domain.PDCEmulator -ReportType HTML -Path "$path\$($domain.DNSRoot)_GPOReportsAll.html"
 }
 
 Return Get-DomainGPOs
