@@ -4,8 +4,8 @@ Function Inspect-Description{
     $Users = @()
 
     #Define objects and patterns to match
-    $SSN = "(\d{3}-\d{2}-\d{4}"
-    $phone = "(\d{3}-\d{3}-\d{4}"
+    $SSN = "(\d{3}-\d{2}-\d{4})"
+    $phone = "(\d{3}-\d{3}-\d{4})"
     $unc = '.*(\\{2}[^\\"]+\\[^\\"]+\\{^"]+).*)'
     $ip = '(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)'
     $strings = @("creds","pass","password","username","credential","VNC","remote","un","pw",$SSN,$phone,$unc,$ip)
