@@ -7,19 +7,23 @@ Function Inspect-HTTPSmuggling{
 
     $mitigatingPolicies = @()
 
-    #Options to check for
-    $replace = 'Properties action="R" fileExtension="js" applicationPath="C:\Windows\System32\Notepad.exe" default="1"'
-    $update = 'Properties action="U" fileExtension="js" applicationPath="C:\Windows\System32\Notepad.exe" default="1"'
+    $extensions = @("js","jse", "cjs", "mjs", "iced", "liticed", "iced.md", "cs", "coffee", "litcoffee", "coffee.md", "ts", "tsx", "ls", "es6", "es", "jsx", "sjs", "eg")
 
-    Foreach ($gpo in $GPOs){
-        $result = Get-GPOReport -Guid $gpo.Id -ReportType XML
+    Foreach ($extension in $extensions){
+        #Options to check for
+        $replace = "Properties action=`"R`" fileExtension=`"$extension`" applicationPath=`"C:\\Windows\\System32\\Notepad.exe`" default=`"1`""
+        $update = "Properties action=`"U`" fileExtension=`"$extension`" applicationPath=`"C:\\Windows\\System32\\Notepad.exe`" default=`"1`""
 
-        if (($result -match $replace) -or ($report -match $update)) {
-            $mitigatingPolicies += $gpo.DisplayName
+        Foreach ($gpo in $GPOs){
+            $result = Get-GPOReport -Guid $gpo.Id -ReportType XML
+
+            if (($result -match $replace) -or ($report -match $update)) {
+                $mitigatingPolicies += $gpo.DisplayName
+                }
             }
         }
 
-    If (!$mitigatingPolicies){
+    If ($mitigatingPolicies.count -eq 0){
         Return @($org_name)
         }
 }
