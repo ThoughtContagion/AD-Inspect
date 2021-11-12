@@ -1,0 +1,12 @@
+{
+	"FindingName": "Access Control Lists on Security Groups Found!",
+	"Description": "Access rights were discovered delegated to the identified Security Groups.",
+	"Remediation": "Review these delegations and remove as necessary.",
+	"AffectedObjects": "",
+	"References": [
+		{
+			"Url":"https://stealthbits.com/blog/delegated-permissions-in-active-directory/",
+			"Text":"Understanding Delegated Permissions in Active Directory"
+		}
+	]
+}
