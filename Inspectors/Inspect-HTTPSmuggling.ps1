@@ -9,6 +9,8 @@ Function Inspect-HTTPSmuggling{
 
     $extensions = @("js","jse", "cjs", "mjs", "iced", "liticed", "iced.md", "cs", "coffee", "litcoffee", "coffee.md", "ts", "tsx", "ls", "es6", "es", "jsx", "sjs", "eg")
 
+    $missingExtensions = @()
+
     Foreach ($extension in $extensions){
         #Options to check for
         $replace = "Properties action=`"R`" fileExtension=`"$extension`" applicationPath=`"C:\\Windows\\System32\\Notepad.exe`" default=`"1`""
@@ -20,11 +22,14 @@ Function Inspect-HTTPSmuggling{
             if (($result -match $replace) -or ($report -match $update)) {
                 $mitigatingPolicies += $gpo.DisplayName
                 }
+            Else {
+                $missingExtensions += $extension
+                }
             }
         }
 
     If ($mitigatingPolicies.count -eq 0){
-        Return @($org_name)
+        Return $missingExtensions
         }
 }
 
