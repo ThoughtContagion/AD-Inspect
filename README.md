@@ -5,7 +5,7 @@ Following in the footsteps of Soteria's 365Inspect tool, AD-Inspect aims to furt
 
 
 # Setup
-AD-Inspect requires that the Active Directory PowerShell module be installed, and that the auditor has sufficient rights to perform all required queries.
+AD-Inspect requires that the Active Directory and LAPS PowerShell modules be installed, and that the auditor has sufficient rights to perform all required queries.
 Domain Administrator is recommended as certain modules connect to Domain Controllers to audit software and services installed.
 
 

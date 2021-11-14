@@ -25,7 +25,8 @@ param (
 	[string] $Username,
 	[Parameter(Mandatory = $true,
 		HelpMessage = 'Output path for report')]
-	[string] $OutPath
+	[string] $OutPath,
+	[string[]] $SelectedInspectors = @()
 )
 
 
@@ -36,9 +37,67 @@ Function Connect-Services{
     }
 }
 
-#Start Script
-Connect-Services
+#Function to change color of text on errors for specific messages
+Function Colorize($ForeGroundColor){
+    $color = $Host.UI.RawUI.ForegroundColor
+    $Host.UI.RawUI.ForegroundColor = $ForeGroundColor
+  
+    if ($args){
+      Write-Output $args
+    }
+  
+    $Host.UI.RawUI.ForegroundColor = $color
+  }
 
+
+Function Confirm-Close{
+    Read-Host "Press Enter to Exit"
+    Exit
+}
+
+Function Confirm-InstalledModules{
+    #Check for required Modules and prompt for install if missing
+
+    $modules = @("ActiveDirectory","AdmPwd.PS")
+    $count = 0
+    $installed = Get-InstalledModule
+
+    foreach ($module in $modules){
+        if ($installed.Name -notcontains $module){
+            if ($module -eq "AdmPwd.PS"){
+                $message = Write-Output "`nAdmPwd.PS is not installed."
+                $message1 = Write-Output 'The module may be installed by running "Install-Module AdmPwd.PS -Force -Scope CurrentUser -Confirm:$false" in an elevated PowerShell window.'
+                Colorize Red ($message)
+                Colorize Yellow ($message1)
+            }
+            Elseif ($module -eq "ActiveDirectory"){
+                $message = Write-Output "`nActiveDirectory is not installed."
+                $message1 = Write-Output 'The module may be installed by installing RSAT tools/enabling features on your machine for Active Directory.'
+                Start-Process "https://docs.microsoft.com/en-us/powershell/module/activedirectory/?view=windowsserver2019-ps"
+                Colorize Red ($message)
+                Colorize Yellow ($message1)
+            }
+        }
+        Else {
+            Write-Output "$module is installed."
+            $count ++
+        }
+    }
+
+    If ($count -lt 2){
+        Write-Output ""
+        Write-Output ""
+        $message = Write-Output "Dependency checks failed. Please install all missing modules before running this script."
+        Colorize Red ($message)
+        Confirm-Close
+    }
+    Else {
+        Connect-Services
+    }
+
+}
+
+Confirm-InstalledModules
 
 #Define Organization Attributes
 $out_path = $OutPath
@@ -50,7 +109,14 @@ $org_name = $org_name.DNSRoot
 # scripts present in the .\inspectors folder. 
 $inspectors = (Get-ChildItem .\inspectors\ | Where-Object -FilterScript { $_.Name -Match ".ps1" }).Name | ForEach-Object { ($_ -split ".ps1")[0] }
 
-$selected_inspectors = $inspectors
+If ($selected_inspectors -AND $selected_inspectors.Count) {
+	"The following O365 inspectors were selected for use: $selected_inspectors"
+}
+Else {
+	"Using all O365 inspectors."
+	$selected_inspectors = $inspectors
+}
+
 
 Try {
 	If ((Test-Path $out_path) -eq $false){
