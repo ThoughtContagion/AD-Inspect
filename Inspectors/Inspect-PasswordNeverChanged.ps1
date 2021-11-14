@@ -12,6 +12,7 @@
 #>
 
 
+$path = @($out_path)
 Function Inspect-PasswordNeverChanged{
     $Users = Get-ADUser -Filter * -Properties WhenCreated, PasswordLastSet 
 
@@ -24,7 +25,8 @@ Function Inspect-PasswordNeverChanged{
             $pwdNeverchanged += $user
         }
     } 
-    Return $pwdNeverchanged
+    Return $pwdNeverchanged.count
+    $pwdNeverchanged | Export-Csv "PWDNeverChanged.csv" -NoTypeInformation
 }
 
 Return Inspect-PasswordNeverChanged

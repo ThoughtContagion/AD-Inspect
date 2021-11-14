@@ -15,7 +15,7 @@ Function Get-DomainControllers{
     #Get a list of all domain controllers
     $DCs = Get-ADDomainController -Filter *
 
-    Return $DCs
+    Return $DCs.Name
 }
 
 Return Get-DomainControllers

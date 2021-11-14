@@ -15,7 +15,7 @@ Function Get-Admins{
     $admins = Get-ADUser -Filter {adminCount -gt 0} -Properties adminCount
 
     If ($admins.count -gt 0){
-        Return $admins
+        Return $admins.samaccountname
     } 
 
 }

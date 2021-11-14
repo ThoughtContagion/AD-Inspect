@@ -11,11 +11,14 @@
     Gather information about Active Directory accounts with PasswordNotRequired flag set
 #>
 
+
+$path = @($out_path)
 Function Inspect-PasswordNotRequired{
     $pwdNotrequired = Get-ADUser -Filter {UserAccountControl -band 0x0020}
     
     if ($pwdNotrequired.count -gt 0){
-        Return $pwdNotrequired
+        Return $pwdNotrequired.count 
+        $pwdNotrequired | Export-Csv "PWDNotRequired.csv" -NoTypeInformation
     }
 }
 

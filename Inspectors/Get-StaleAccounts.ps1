@@ -11,11 +11,14 @@
     Gather information about Active Directory stale accounts
 #>
 
+$path = @($out_path)
+
 Function Get-StaleAccounts{
     $stale_accounts = Get-ADUser -filter {Enabled -eq $true} -properties LastLogonDate | Where-Object { $_.lastlogondate -lt (Get-Date).adddays(-120)}
     
     if ($stale_accounts.count -ne 0){
-        Return $stale_accounts
+        Return $stale_accounts.count
+        $stale_accounts | Export-Csv "$path\StaleAccounts.csv" -NoTypeInformation
     }
 }
 

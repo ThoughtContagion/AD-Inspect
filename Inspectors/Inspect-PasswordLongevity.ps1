@@ -11,12 +11,15 @@
     Gather information about Active Directory accounts with long-lived passwords
 #>
 
+
+$path = @($out_path)
 Function Inspect-PasswordLongevity{
     $Date = (Get-Date).adddays(-120) | Get-Date -Format MM/dd/yyyy
     $pwdNotchanged = Get-ADUser -filter {(PasswordLastSet -lt $Date) -and (PasswordNeverExpires -eq $false)} -Properties PasswordLastSet
     
     if ($pwdNotchanged.count -gt 0 -and $pwdNotchanged.enabled -eq $true){
-        Return $pwdNotchanged
+        Return $pwdNotchanged.count
+        $pwdNotchanged | Export-Csv "$path\PWD-Longetivity.csv" -NoTypeInformation
     }
 }
 

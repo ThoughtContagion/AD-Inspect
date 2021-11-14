@@ -15,7 +15,7 @@ Function Inspect-AdminDelegation{
     $admins = Get-ADUser -filter {admincount -gt 0} -pr AccountNotDelegated | Where-Object {$_.AccountNotDelegated -eq $false} 
     
     if ($admins.count -ne 0){
-        Return $admins
+        Return $admins.samaccountname
     }
 }
 

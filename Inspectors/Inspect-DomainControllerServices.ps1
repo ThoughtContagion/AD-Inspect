@@ -11,12 +11,15 @@
     Gather information about services running on Active Directory Domain Controllers
 #>
 
+
+$path = @($out_path)
 Function Get-Services{
     $DCs = Get-ADDomainController
     
     Foreach ($DC in $DCs) {
         $services = Get-Service -ComputerName $DC.Hostname
-        Return $services
+        Return $services.Count
+        $services | Export-Csv "$path\$($DC.name)_Services.csv" -NoTypeInformation
     }
 }
 

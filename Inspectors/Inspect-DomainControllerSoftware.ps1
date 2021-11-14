@@ -11,12 +11,15 @@
     Gather information about software installed on Active Directory Domain Controllers
 #>
 
+
+$path = @($out_path)
 Function Get-DCSoftware{
     $DCs = Get-ADDomainController
 
     Foreach ($DC in $DCs) {
         $software = Get-WmiObject -Class Win32_Product -ComputerName $DC.Hostname
-        Return $software
+        Return $software.count
+        $software | Export-Csv "$path\$($DC.name)_Software.csv" -NoTypeInformation
     }
 }
 

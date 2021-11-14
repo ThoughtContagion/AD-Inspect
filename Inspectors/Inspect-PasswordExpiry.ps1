@@ -11,11 +11,14 @@
     Gather information about Active Directory accounts with non-expiring passwords
 #>
 
+
+$path = @($out_path)
 Function Inspect-PasswordExpiry{
     $pwdNeverexpires = Get-ADUser -filter {Enabled -eq $true} -properties Name, SAMAccountName, PasswordNeverExpires, Description, Title, Department | Where-Object { $_.passwordNeverExpires -eq "true" }
     
     if ($pwdNeverexpires.count -gt 0){
-        Return $pwdNeverexpires
+        Return $pwdNeverexpires.count
+        $pwdNeverexpires | Export-Csv "$path\PWDNeverExpires.csv" -NoTypeInformation
     }
 }
 
