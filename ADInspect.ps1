@@ -58,33 +58,22 @@ Function Confirm-Close{
 Function Confirm-InstalledModules{
     #Check for required Modules and prompt for install if missing
 
-    $modules = @("ActiveDirectory","AdmPwd.PS")
+    $module = @("AdmPwd.PS")
     $count = 0
     $installed = Get-InstalledModule
 
-    foreach ($module in $modules){
-        if ($installed.Name -notcontains $module){
-            if ($module -eq "AdmPwd.PS"){
-                $message = Write-Output "`nAdmPwd.PS is not installed."
-                $message1 = Write-Output 'The module may be installed by running "Install-Module AdmPwd.PS -Force -Scope CurrentUser -Confirm:$false" in an elevated PowerShell window.'
-                Colorize Red ($message)
-                Colorize Yellow ($message1)
-            }
-            Elseif ($module -eq "ActiveDirectory"){
-                $message = Write-Output "`nActiveDirectory is not installed."
-                $message1 = Write-Output 'The module may be installed by installing RSAT tools/enabling features on your machine for Active Directory.'
-                Start-Process "https://docs.microsoft.com/en-us/powershell/module/activedirectory/?view=windowsserver2019-ps"
-                Colorize Red ($message)
-                Colorize Yellow ($message1)
-            }
-        }
-        Else {
-            Write-Output "$module is installed."
-            $count ++
-        }
-    }
+	if ($installed.Name -notcontains $module){
+		$message = Write-Output "`n$module is not installed."
+		$message1 = Write-Output "The module may be installed by running `"Install-Module $module -Force -Scope CurrentUser -Confirm:`$false`" in an elevated PowerShell window."
+		Colorize Red ($message)
+		Colorize Yellow ($message1)
+		}
+	Else {
+		Write-Output "$module is installed."
+		$count ++
+	}
 
-    If ($count -lt 2){
+    If ($count -lt 1){
         Write-Output ""
         Write-Output ""
         $message = Write-Output "Dependency checks failed. Please install all missing modules before running this script."
@@ -110,10 +99,10 @@ $org_name = $org_name.DNSRoot
 $inspectors = (Get-ChildItem .\inspectors\ | Where-Object -FilterScript { $_.Name -Match ".ps1" }).Name | ForEach-Object { ($_ -split ".ps1")[0] }
 
 If ($selected_inspectors -AND $selected_inspectors.Count) {
-	"The following O365 inspectors were selected for use: $selected_inspectors"
+	"The following inspectors were selected for use: $selected_inspectors"
 }
 Else {
-	"Using all O365 inspectors."
+	"Using all inspectors."
 	$selected_inspectors = $inspectors
 }
 
