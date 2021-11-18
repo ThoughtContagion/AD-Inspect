@@ -4,7 +4,7 @@
 .DESCRIPTION
     This script checks Active Directory Forest and offers remediation steps
 .COMPONENT
-    PowerShell, Active Directory PowerShell Module, and sufficient rights to change admin accounts
+    PowerShell, Active Directory PowerShell Module, and sufficient rights to query the Forest
 .ROLE
     Domain Admin or Delegated rights
 .FUNCTIONALITY

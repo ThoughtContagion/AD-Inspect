@@ -20,7 +20,7 @@ Function Get-HighValueTargets{
         if ((Get-ADGroupMember $group).count -ne 0){
             $members = Get-ADGroupMember $group -Recursive
             foreach ($member in $members.samaccountname){
-                $HVT += $member
+                $HVT += "$member is a member of $group"
             }
         }
     }
