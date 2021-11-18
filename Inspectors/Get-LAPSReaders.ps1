@@ -24,7 +24,7 @@ function Get-LAPSReaders{
         if ($object -notlike "NT Authority\*"){
             $obj = $object.IndexOf("\")
             $name = $object.substring($obj+1)
-            $users += Get-ADObject -filter * | Where-Object {($_.objectClass -eq "user") -and ($_.name -like $name)} 
+            $users += Get-ADObject -filter {($_.objectClass -eq "user") -and ($_.name -like $name)} 
         }
     }
 
