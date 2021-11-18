@@ -12,7 +12,7 @@ function Get-LAPSReaders{
 
     Foreach ($ou in $OUs){
         try {
-            $objects += Find-AdmPwdExtendedRights -Identity $ou.name | Select-Object -ExpandProperty ExtendedRightHolders -Unique
+            $objects += Find-AdmPwdExtendedRights -Identity $ou.distinguishedname | Select-Object -ExpandProperty ExtendedRightHolders -Unique
         }
         catch {
             return $null
