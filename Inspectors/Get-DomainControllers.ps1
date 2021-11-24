@@ -13,7 +13,7 @@
 
 Function Get-DomainControllers{
     #Get a list of all domain controllers
-    $DCs = Get-ADDomainController -Filter *
+    $DCs = (Get-ADForest).Domains | ForEach-Object {Get-ADController -Filter * -Server $_}
 
     Return $DCs.Name
 }
