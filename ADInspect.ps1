@@ -26,7 +26,12 @@ param (
 	[Parameter(Mandatory = $true,
 		HelpMessage = 'Output path for report')]
 	[string] $OutPath,
-	[string[]] $SelectedInspectors = @()
+	[Parameter(Mandatory = $false,
+		HelpMessage = 'Run Only the Specified Inspectors')]
+	[string[]] $SelectedInspectors = @(),
+	[Parameter(Mandatory = $false,
+		HelpMessage = 'Exclude the Specified Inspectors and run all others')]
+	[string[]] $ExcludedInspectors = @()
 )
 
 
@@ -92,14 +97,32 @@ Confirm-InstalledModules
 $out_path = $OutPath
 $org_name = Get-ADDomain | Select-Object DNSRoot
 $org_name = $org_name.DNSRoot
+$selected_inspectors = $SelectedInspectors
+$excluded_inspectors = $ExcludedInspectors
 
 
 # Get a list of every available detection module by parsing the PowerShell
 # scripts present in the .\inspectors folder. 
-$inspectors = (Get-ChildItem .\inspectors\ | Where-Object -FilterScript { $_.Name -Match ".ps1" }).Name | ForEach-Object { ($_ -split ".ps1")[0] }
+If ($excluded_inspectors -and $excluded_inspectors.Count){
+	$excluded_inspectors = foreach ($inspector in $excluded_inspectors){"$inspector.ps1"}
+	$inspectors = (Get-ChildItem .\inspectors\*.ps1 -exclude $excluded_inspectors).Name | ForEach-Object { ($_ -split ".ps1")[0] }
+}
+else {
+	$inspectors = (Get-ChildItem .\inspectors\*.ps1).Name | ForEach-Object { ($_ -split ".ps1")[0] }
+}
 
 If ($selected_inspectors -AND $selected_inspectors.Count) {
-	"The following inspectors were selected for use: $selected_inspectors"
+	"The following inspectors were selected for use: "
+	Foreach ($inspector in $selected_inspectors){
+		Write-Output $inspector
+	}
+}
+elseif ($excluded_Inspectors -and $excluded_inspectors.Count) {
+	$selected_inspectors = $inspectors
+	Write-Output "Using inspectors:`n"
+	Foreach ($inspector in $inspectors){
+		Write-Output $inspector
+	}
 }
 Else {
 	"Using all inspectors."
