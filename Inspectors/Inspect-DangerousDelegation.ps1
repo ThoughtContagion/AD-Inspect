@@ -1,6 +1,6 @@
 $path = @($out_path)
 
-Function Get-DangerousDelegation {
+Function Inspect-DangerousDelegation {
     $DangerousDelegation = Import-CSV -Path (Get-ChildItem -Path $path -Filter "*_ACLs.csv").FullName | Where-Object {($_.accesscontroltype -like "GenericAll") -or ($_.accesscontroltype -like "*Write*")} 
     If ($DangerousDelegation.Count -ne 0){
         $DangerousDelegation | Export-CSV "$($path)\DangerousDegelationPermissions.csv" -NoTypeInformation
@@ -8,4 +8,4 @@ Function Get-DangerousDelegation {
     Return $null
 }
 
-Return Get-DangerousDelegation
+Return Inspect-DangerousDelegation

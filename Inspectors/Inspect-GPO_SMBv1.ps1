@@ -22,6 +22,7 @@ Function Inspect-GPO_SMBv1{
     If ($mitigatingPolicies.count -eq 0){
         Return "No GPO to disable SMBv1"
         }
+    Return $null
 }
 
 Return Inspect-GPO_SMBv1
