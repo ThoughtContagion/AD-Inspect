@@ -13,7 +13,7 @@ Function Inspect-GPO_SMBv1{
         Foreach ($gpo in $GPOs){
             $result = Get-GPOReport -Guid $gpo.Id -ReportType XML
 
-            if ($result -match $string) {
+            if ($result -match [regex]::Escape($string)) {
                 $mitigatingPolicies += $gpo.DisplayName
                 }
             }
