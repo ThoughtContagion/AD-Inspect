@@ -7,7 +7,7 @@ Function Inspect-GPO_SMBv1{
 
     $mitigatingPolicies = @()
 
-    $strings = 'key="\SYSTEM\CurrentControlSet\services\mrxsmb10" name="Start" Type="REG_DWORD" value="00000004', 'key="SYSTEM\CurrentControlSet\Services\LanmanWorkstation" name="DependOnService" type="REG_MULTI_SZ" value="Bower MRxSMB20 NSI"','key="SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" name="SMB1" type="REG_DWORD" value="00000000"'
+    $strings = @('key="\SYSTEM\CurrentControlSet\services\mrxsmb10" name="Start" Type="REG_DWORD" value="00000004"', 'key="SYSTEM\CurrentControlSet\Services\LanmanWorkstation" name="DependOnService" type="REG_MULTI_SZ" value="Bower MRxSMB20 NSI"','key="SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" name="SMB1" type="REG_DWORD" value="00000000"')
 
     Foreach ($string in $strings){
         Foreach ($gpo in $GPOs){

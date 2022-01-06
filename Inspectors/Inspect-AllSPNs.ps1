@@ -3,7 +3,7 @@ Function Inspect-AllSPNs{
 
     $query = New-Object DirectoryServices.DirectorySearcher([ADSI]"")
 
-    $query.Filter = "(serviceprincipalname-*)"
+    $query.Filter = "(serviceprincipalname=*)"
 
     $results = $query.FindAll()
 
