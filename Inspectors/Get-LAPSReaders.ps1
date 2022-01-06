@@ -3,6 +3,8 @@
     This is a placeholder file
 #>
 
+$path = @($out_path)
+
 function Get-LAPSReaders{
     $OUs = Get-ADOrganizationalUnit -Filter *
 
@@ -20,16 +22,17 @@ function Get-LAPSReaders{
 
     }
 
+    $objects = $objects | Where-Object {$_ -notlike "NT Authority\*"} | Select-Object -Unique
+
     foreach ($object in $objects){
-        if ($object -notlike "NT Authority\*"){
-            $obj = $object.IndexOf("\")
-            $name = $object.substring($obj+1)
-            $users += Get-ADObject -filter {(objectClass -eq "user") -or (objectClass -eq "group") -and (name -like $name)} 
-        }
+        $obj = $object.IndexOf("\")
+        $name = $object.substring($obj+1)
+        $users += Get-ADObject -filter {(objectClass -eq "user") -or (objectClass -eq "group") -and (name -like $name)} 
     }
 
     If ($users.count -gt 0){
-        return $users
+        return $users.count
+        $users | Export-Csv "$path\LAPSReaders.csv" -NoTypeInformation
     }
 
     return $null
