@@ -204,7 +204,8 @@ $long_findings_html = ''
 
 $findings_count = 0
 
-ForEach ($finding in $findings) {
+$sortedFindings = $findings | Sort-Object {Switch -Regex ($_.Risk){'Critical' {1}	'High' {2}	'Medium' {3}	'Low' {4}	'Informational' {5}};$_.FindingName} 
+ForEach ($finding in $sortedFindings) {
 	# If the result from the inspector was not $null,
 	# it identified a real finding that we must process.
 	If ($null -NE $finding.AffectedObjects) {

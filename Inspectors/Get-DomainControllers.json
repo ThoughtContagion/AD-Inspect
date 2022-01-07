@@ -3,6 +3,7 @@
 	"Description": "Maintiaining a list of Active Directory Domain Controllers for validation. Ensuring the list matches expected Domain Controllers can help detect rogue DC's used in an attack known as DCShadow.",
 	"Remediation": "As this attack requires compromised privileged credentials, remediation is two-fold. First, remove any unknown, unauthorized servers from the environment and then force password changes on all accounts with Domain Admin or higher rights.",
 	"AffectedObjects": "",
+	"Risk": "Informational",
 	"References": [
 		{
 			"Url": "https://docs.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/securing-domain-controllers-against-attack",

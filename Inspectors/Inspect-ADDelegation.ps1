@@ -10,6 +10,7 @@ Function Inspect-Delegation{
     
     Foreach ($OU in $OUs){
         dsacls $OU.DistinguishedName | Out-File -FilePath "$path\$($OU.Name)_DelegatedRights.txt"
+        Return "Delegation found on $($OUs.count) Organizational Units."
     }
 
 }

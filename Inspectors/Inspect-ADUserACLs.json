@@ -3,6 +3,7 @@
 	"Description": "Access rights were discovered delegated to the identified users.",
 	"Remediation": "Review these delegations and remove as necessary.",
 	"AffectedObjects": "",
+	"Risk": "Medium",
 	"References": [
 		{
 			"Url":"https://stealthbits.com/blog/delegated-permissions-in-active-directory/",
