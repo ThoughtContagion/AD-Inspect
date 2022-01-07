@@ -14,8 +14,15 @@
 
 Function Inspect-Domain{
     $Domain = Get-ADDomain
-    If (($Domain.DomainMode -notlike "*2016*") -or ($Domain.DomainMode -notlike "*2019*")) {
-        Return "$Domain is $($Domain.DomainMode)"
+
+    $currentMode = $Domain.DomainMode
+
+    $minimum = 2016
+
+    $value = ($currentMode) -replace '\D+([0-9]*).*','$1'
+
+    If ($value -lt $minimum) {
+        Return "$($Domain.NetBIOSName) is $currentMode"
     }
     Return $null
 }

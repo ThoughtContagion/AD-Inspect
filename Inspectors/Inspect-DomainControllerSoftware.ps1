@@ -18,8 +18,8 @@ Function Get-DCSoftware{
 
     Foreach ($DC in $DCs) {
         $software = Get-WmiObject -Class Win32_Product -ComputerName $DC.Hostname
-        Return $software.count
         $software | Export-Csv "$path\$($DC.name)_Software.csv" -NoTypeInformation
+        Return $software.count
     }
 }
 

@@ -24,9 +24,12 @@ Function Inspect-PasswordNeverChanged{
         If ($created -eq $pwllastset) {
             $pwdNeverchanged += $user
         }
-    } 
-    Return $pwdNeverchanged.count
-    $pwdNeverchanged | Export-Csv "PWDNeverChanged.csv" -NoTypeInformation
+    }
+    
+    if ($pwdNeverchanged.count -ne 0){
+        $pwdNeverchanged | Export-Csv "PWDNeverChanged.csv" -NoTypeInformation
+        Return $pwdNeverchanged.count
+    }
 }
 
 Return Inspect-PasswordNeverChanged

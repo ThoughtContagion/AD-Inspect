@@ -18,8 +18,8 @@ Function Get-Services{
     
     Foreach ($DC in $DCs) {
         $services = Get-Service -ComputerName $DC.Hostname
-        Return $services.Count
         $services | Export-Csv "$path\$($DC.name)_Services.csv" -NoTypeInformation
+        Return $services.Count
     }
 }
 

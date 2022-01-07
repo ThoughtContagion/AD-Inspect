@@ -1,5 +1,5 @@
 {
-	"FindingName": "Domain Forest Functional Level Below Windows 2016 Forest!",
+	"FindingName": "Domain Forest Functional Level Below Windows 2016 Forest",
 	"Description": "Domain Forest Functional Levels determine the functionality and feature sets available across the domain. Higher Functional Levels contain features to increase security of the domain.",
 	"Remediation": "Ensure that all required updates and upgrades are in place, then increase the Domain Forest Functional Level to the highest available option.",
 	"AffectedObjects": "",

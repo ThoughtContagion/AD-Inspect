@@ -14,8 +14,15 @@
 
 Function Inspect-Forest{
     $Forest = Get-ADForest
-    If (($Forest.ForestMode -notlike "*2016*") -or ($Forest.ForestMode -notlike "*2019*")) {
-        Return "$Forest is $($Forest.Forestmode)"
+
+    $currentMode = $Forest.ForestMode
+
+    $minimum = 2016
+
+    $value = ($currentMode) -replace '\D+([0-9]*).*','$1'
+
+    If ($value -lt $minimum) {
+        Return "$Forest is $currentMode"
     }
     Return $null
 }
