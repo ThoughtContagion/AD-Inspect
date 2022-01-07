@@ -31,8 +31,8 @@ function Get-LAPSReaders{
     }
 
     If ($users.count -gt 0){
-        return $users.count
         $users | Export-Csv "$path\LAPSReaders.csv" -NoTypeInformation
+        return $users.count
     }
 
     return $null
