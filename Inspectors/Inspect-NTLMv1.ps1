@@ -3,7 +3,7 @@ Function Inspect-NTLMv1{
     $count = 0
     
     Foreach ($domain in $Domains) {
-        $DCs = Get-ADDomainController -Filter * -Server $_
+        $DCs = Get-ADDomainController -Filter *
         Foreach ($dc in $DCs){
             Try {
                 $events = Invoke-Command -ComputerName $dc.HostName -ScriptBlock {Get-WinEvent -FilterHashtable @{logname='Security';ID=4624} | Where-Object {$_.Message -like "*NTLM V1*"}} -ErrorAction SilentlyContinue
