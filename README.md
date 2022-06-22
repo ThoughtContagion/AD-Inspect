@@ -1,4 +1,4 @@
-# AD-Inspect
+# AD-Inspect - NO LONGER UNDER ACTIVE DEVELOPMENT. PLEASE SEE THE NEWER AD*Inspect* REPO https://github.com/ThoughtContagion/ADInspect
 
 # Purpose
 Following in the footsteps of Soteria's 365Inspect tool, AD-Inspect aims to further the state of Active Directory security by authoring a PowerShell script that automates the security assessment of Microsoft Active Directory environments.
